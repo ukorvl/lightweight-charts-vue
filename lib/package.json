@@ -1,0 +1,59 @@
+{
+  "name": "lightweight-charts-vue",
+  "version": "0.0.1",
+  "description": "A Vue3 component library that wraps TradingView's Lightweight Charts for seamless financial data visualization",
+  "scripts": {
+    "build": "unbuild",
+    "check:format": "prettier --write 'src/**/*.{ts,vue}'",
+    "check:exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "author": "ukorvl <ukorotovskiy@gmail.com>",
+  "license": "MIT",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "unpkg": "./dist/lightweight-charts-vue.standalone.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "peerDependencies": {
+    "lightweight-charts": ">=5 < 6",
+    "vue": ">=2.7.0 < 4"
+  },
+  "publishConfig": {
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "lightweight-charts",
+    "data-visualization",
+    "trading",
+    "charting",
+    "stock",
+    "market",
+    "finance"
+  ],
+  "homepage": "https://github.com/ukorvl/lightweight-charts-vue#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ukorvl/lightweight-charts-vue.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ukorvl/lightweight-charts-vue/issues"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.1",
+    "unbuild": "^3.5.0"
+  }
+}

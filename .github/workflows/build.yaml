@@ -1,0 +1,49 @@
+# here is want to make build for lib and demo separte and run only when there is a change in the lib or demo folder
+# and run them in paralel if changes are made in both folders
+name: Build
+on:
+  push:
+    paths:
+      - 'lib/**'
+      - 'demo/**'
+  pull_request:
+    paths:
+      - 'lib/**'
+      - 'demo/**'
+jobs:
+  build_lib:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 'stable'
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Run tests
+        run: dart test
+
+  build_demo:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+    needs: build_lib
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 'stable'
+
+      - name: Install dependencies
+        run: dart pub get --directory demo
+
+      - name: Run demo
+        run: dart run demo/main.dart
