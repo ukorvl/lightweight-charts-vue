@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    reviewers:
+      - "ukorvl"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    ignore:
+      - dependency-name: "lightweight-charts"
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]

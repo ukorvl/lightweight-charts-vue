@@ -1,0 +1,44 @@
+{
+  "name": "lightweicht-charts-vue-monorepo",
+  "description": "Monorepo for Lightweight Charts Vue component library",
+  "version": "0.1.0",
+  "scripts": {
+    "lint:commits": "bash ./scripts/lint-commits.sh",
+    "install-git-hooks": "npx --no-install simple-git-hooks",
+    "prepare": "npm run install-git-hooks"
+  },
+  "private": true,
+  "workspaces": [
+    "lib",
+    "demo"
+  ],
+  "directories": {
+    "example": "demo",
+    "lib": "lib"
+  },
+  "author": "ukorvl",
+  "license": "MIT",
+  "dependencies": {
+    "lightweight-charts": "5.0.7"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/format": "^19.8.1",
+    "@commitlint/types": "^19.8.1",
+    "concurrently": "^9.1.2",
+    "prettier": "^3.5.3",
+    "simple-git-hooks": "^2.13.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "npx --no-install commitlint --edit $1",
+    "preserveUnused": [
+      "commit-msg"
+    ]
+  }
+}
