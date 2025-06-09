@@ -1,23 +1,36 @@
 {
   "name": "lightweicht-charts-vue-monorepo",
-  "description": "Monorepo for Lightweight Charts Vue component library",
   "version": "0.1.0",
-  "scripts": {
-    "lint:commits": "bash ./scripts/lint-commits.sh",
-    "install-git-hooks": "npx --no-install simple-git-hooks",
-    "prepare": "npm run install-git-hooks"
-  },
   "private": true,
+  "description": "Monorepo for Lightweight Charts Vue component library",
+  "license": "MIT",
+  "author": "ukorvl",
+  "directories": {
+    "lib": "lib",
+    "example": "demo"
+  },
   "workspaces": [
     "lib",
     "demo"
   ],
-  "directories": {
-    "example": "demo",
-    "lib": "lib"
+  "scripts": {
+    "build": "concurrently \"npm run build -w lib\" \"npm run build -w demo\" --kill-others --success last",
+    "check:commits": "bash ./scripts/lint-commits.sh",
+    "check:format": "prettier --check './**/*.{ts,vue,json,mjs,html}'",
+    "check:lint": "eslint --cache --cache-location=.eslintcache .",
+    "dev": "concurrently \"npm run dev -w lib\" \"npm run dev -w demo\" --kill-others --success last",
+    "format": "prettier --write './**/*.{ts,vue,json,mjs,html}'",
+    "install-git-hooks": "npx --no-install simple-git-hooks",
+    "lint": "eslint . --ext .ts,.vue --cache --cache-location=.eslintcache --fix",
+    "prepare": "npm run install-git-hooks",
+    "test:all": "concurrently \"npm run test:all -w lib\" \"npm run test:all -w demo\""
   },
-  "author": "ukorvl",
-  "license": "MIT",
+  "simple-git-hooks": {
+    "commit-msg": "npx --no-install commitlint --edit $1",
+    "preserveUnused": [
+      "commit-msg"
+    ]
+  },
   "dependencies": {
     "lightweight-charts": "5.0.7"
   },
@@ -26,19 +39,22 @@
     "@commitlint/config-conventional": "^19.8.1",
     "@commitlint/format": "^19.8.1",
     "@commitlint/types": "^19.8.1",
+    "@testing-library/jest-dom": "^6.6.3",
     "concurrently": "^9.1.2",
+    "eslint-config-vuetify": "^4.0.0",
     "prettier": "^3.5.3",
+    "prettier-plugin-multiline-arrays": "^4.0.3",
+    "prettier-plugin-packagejson": "^2.5.15",
+    "prettier-plugin-sort-json": "^4.1.1",
     "simple-git-hooks": "^2.13.0",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.4"
+    "vite": "^6.3.5",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.1.4",
+    "vue-tsc": "^2.2.10"
   },
   "engines": {
-    "node": ">=22.0.0"
-  },
-  "simple-git-hooks": {
-    "commit-msg": "npx --no-install commitlint --edit $1",
-    "preserveUnused": [
-      "commit-msg"
-    ]
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
   }
 }
