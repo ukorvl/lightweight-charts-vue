@@ -18,6 +18,7 @@ const Configuration = {
         "refactor",
         "test",
         "chore",
+        "chore(release)",
         "perf",
         "ci",
         "revert",
