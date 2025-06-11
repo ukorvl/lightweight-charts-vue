@@ -49,7 +49,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "npm run check:types && vite build",
     "check:exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
     "check:types": "vue-tsc --noEmit",
     "dev": "vite",
