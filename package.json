@@ -4,7 +4,10 @@
   "private": true,
   "description": "Monorepo for Lightweight Charts Vue component library",
   "license": "MIT",
-  "author": "ukorvl",
+  "author": {
+    "name": "ukorvl",
+    "email": "ukorotovskiy@gmail.com"
+  },
   "directories": {
     "lib": "lib",
     "example": "demo"
@@ -14,13 +17,14 @@
     "demo"
   ],
   "scripts": {
-    "build": "concurrently \"npm run build -w lib\" \"npm run build -w demo\" --kill-others --success last",
+    "build": "concurrently \"npm run build -w lib\" \"npm run build -w demo\" --success last",
     "check:commits": "bash ./scripts/lint-commits.sh",
     "check:format": "prettier --check './**/*.{ts,vue,json,mjs,html}'",
     "check:lint": "eslint --cache --cache-location=.eslintcache .",
     "dev": "concurrently \"npm run dev -w lib\" \"npm run dev -w demo\" --kill-others --success last",
     "format": "prettier --write './**/*.{ts,vue,json,mjs,html}'",
     "install-git-hooks": "npx --no-install simple-git-hooks",
+    "knip": "knip --production",
     "lint": "eslint . --ext .ts,.vue --cache --cache-location=.eslintcache --fix",
     "prepare": "npm run install-git-hooks",
     "test:all": "concurrently \"npm run test:all -w lib\" \"npm run test:all -w demo\""
@@ -40,8 +44,11 @@
     "@commitlint/format": "^19.8.1",
     "@commitlint/types": "^19.8.1",
     "@testing-library/jest-dom": "^6.6.3",
+    "@vue/test-utils": "^2.4.6",
     "concurrently": "^9.1.2",
     "eslint-config-vuetify": "^4.0.0",
+    "jsdom": "^26.1.0",
+    "knip": "^5.60.2",
     "prettier": "^3.5.3",
     "prettier-plugin-multiline-arrays": "^4.0.3",
     "prettier-plugin-packagejson": "^2.5.15",
@@ -56,5 +63,12 @@
   "engines": {
     "node": ">=22.0.0",
     "npm": ">=10.0.0"
+  },
+  "knip": {
+    "ignore": [],
+    "ignoreBinaries": [
+      "commitlint",
+      "commit-msg"
+    ]
   }
 }

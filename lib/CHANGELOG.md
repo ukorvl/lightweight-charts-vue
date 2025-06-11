@@ -7,3 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Initial release of the library with basic components and functionality.
+
+## [0.0.1] - 2025-05-31
+### Added
+- Basic structure of the library.

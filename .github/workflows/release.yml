@@ -1,0 +1,89 @@
+name: Release
+# Create a tag with a valid SemVer version number
+# and then run this workflow to release a new version of the library
+# and deploy the demo to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy-demo:
+        description: "Deploy the demo app to GitHub Pages"
+        required: false
+        default: true
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  check-semver-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.check-semver-tag.outputs.tag_name }}
+    steps:
+      - name: Check semver tag
+        id: check-semver-tag
+        run: |
+          TAG_NAME=${GITHUB_REF##*/}
+          echo "Checking if the tag $TAG_NAME is a valid SemVer tag..."
+
+          if [[ ! "$TAG_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Tag $TAG_NAME is not a valid SemVer tag"
+            exit 1
+          fi
+
+          echo "The tag $TAG_NAME is a valid SemVer tag."
+
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+        shell: bash
+
+  release:
+    needs: check-semver-tag
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Check Changelog
+        uses: ukorvl/custom-github-actions/check-version-changelog@v1
+        with:
+          PACKAGE_JSON: "lib/package.json"
+          CHANGELOG_FILE: "lib/CHANGELOG.md"
+
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+
+      - name: Lint
+        uses: ./.github/actions/lint
+        with:
+          check-commits: false
+
+      - name: Build
+        uses: ./.github/actions/build
+        with:
+          base-path: /lightweight-charts-vue
+
+      - name: Test
+        uses: ./.github/actions/test
+        with:
+          upload-coverage: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create a new release
+        uses: ./.github/actions/release
+        with:
+          tag: ${{ needs.check-semver-tag.outputs.tag_name }}
+          npm-token: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Deploy demo
+        if: ${{ github.event.inputs.deploy-demo == 'true' }}
+        uses: ./.github/actions/deploy-demo
+        with:
+          keep-files: true
+          branch: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}

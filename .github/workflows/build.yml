@@ -1,49 +1,37 @@
-# here is want to make build for lib and demo separte and run only when there is a change in the lib or demo folder
-# and run them in paralel if changes are made in both folders
 name: Build
+
 on:
-  push:
-    paths:
-      - 'lib/**'
-      - 'demo/**'
   pull_request:
-    paths:
-      - 'lib/**'
-      - 'demo/**'
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build_lib:
+  build:
+    name: Build
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Dart
-        uses: dart-lang/setup-dart@v1
-        with:
-          sdk: 'stable'
+      - name: Clone repository
+        uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: dart pub get
+        uses: ./.github/actions/install-dependencies
 
-      - name: Run tests
-        run: dart test
-
-  build_demo:
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
-    needs: build_lib
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Dart
-        uses: dart-lang/setup-dart@v1
+      - name: Lint
+        uses: ./.github/actions/lint
         with:
-          sdk: 'stable'
+          check-commits: ${{ github.event_name == 'pull_request' }}
 
-      - name: Install dependencies
-        run: dart pub get --directory demo
+      - name: Build app
+        uses: ./.github/actions/build
 
-      - name: Run demo
-        run: dart run demo/main.dart
+      - name: Test
+        uses: ./.github/actions/test
+        with:
+          upload-coverage: ${{ github.event_name == 'push' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

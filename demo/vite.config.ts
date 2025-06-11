@@ -17,9 +17,6 @@ export default defineConfig({
     }),
     Vuetify({
       autoImport: true,
-      styles: {
-        configFile: "src/styles/settings.scss",
-      },
     }),
     Components({
       dts: "src/components.d.ts",

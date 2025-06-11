@@ -1,0 +1,18 @@
+name: "Build app"
+description: "Builds lib and demo app and prepares it for deployment"
+
+inputs:
+  base-path:
+    description: "Base path for the project assets"
+    required: false
+    default: "/"
+    type: "string"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build
+      run: |
+        export VITE_BASE_URL=${{ inputs.base-path }}
+        npm run build
+      shell: bash
