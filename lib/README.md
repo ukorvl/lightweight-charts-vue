@@ -26,10 +26,10 @@
     </picture>
   </a>
 
-  <a href="https://github.com/ukorvl/lightweight-charts-vue/actions/workflows/build.yaml">
+  <a href="https://github.com/ukorvl/lightweight-charts-vue/actions/workflows/build.yml">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/github/actions/workflow/status/ukorvl/lightweight-charts-vue/build.yaml?branch=main&colorA=1e2f23&colorB=1e2f23&style=flat">
-      <img src="https://img.shields.io/github/actions/workflow/status/ukorvl/lightweight-charts-vue/build.yaml?branch=main&colorA=42b883&colorB=42b883&style=flat" alt="Build Status">
+      <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/github/actions/workflow/status/ukorvl/lightweight-charts-vue/build.yml?branch=main&colorA=1e2f23&colorB=1e2f23&style=flat">
+      <img src="https://img.shields.io/github/actions/workflow/status/ukorvl/lightweight-charts-vue/build.yml?branch=main&colorA=42b883&colorB=42b883&style=flat" alt="Build Status">
     </picture>
   </a>
 
