@@ -48,7 +48,7 @@
     "concurrently": "^9.1.2",
     "eslint-config-vuetify": "^4.0.0",
     "jsdom": "^26.1.0",
-    "knip": "^5.60.2",
+    "knip": "^5.61.3",
     "prettier": "^3.5.3",
     "prettier-plugin-multiline-arrays": "^4.0.3",
     "prettier-plugin-packagejson": "^2.5.15",
